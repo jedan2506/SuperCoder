@@ -8,7 +8,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { handleStoryStatus } from '@/app/utils';
 import CustomTag from '@/components/CustomTag/CustomTag';
 import { getActivityLogs } from '@/api/DashboardService';
-import { useSearchParams } from 'next/navigation';
 import { StoryListItems } from '../../../../types/workbenchTypes';
 import { BoardProvider } from '@/context/Boards';
 import CustomDropdown from '@/components/CustomDropdown/CustomDropdown';
@@ -83,6 +82,12 @@ const ActiveWorkbench: React.FC = () => {
       storiesList &&
       storiesList.IN_PROGRESS &&
       storiesList.IN_PROGRESS.length > 0
+    );
+  };
+
+  const handleInReviewCheck = () => {
+    return (
+      storiesList && storiesList.IN_REVIEW && storiesList.IN_REVIEW.length > 0
     );
   };
 
@@ -169,6 +174,21 @@ const ActiveWorkbench: React.FC = () => {
                   showDivider
                 >
                   {storiesList.IN_PROGRESS.map((story) => (
+                    <CustomDropdown.Item
+                      key={story.story_id.toString()}
+                      onClick={() =>
+                        handleItemSelect(story.story_id.toString())
+                      }
+                    >
+                      <span>{story.story_name}</span>
+                    </CustomDropdown.Item>
+                  ))}
+                </CustomDropdown.Section>
+              )}
+
+              {handleInReviewCheck() && (
+                <CustomDropdown.Section title={'IN REVIEW STORIES'} showDivider>
+                  {storiesList.IN_REVIEW.map((story) => (
                     <CustomDropdown.Item
                       key={story.story_id.toString()}
                       onClick={() =>

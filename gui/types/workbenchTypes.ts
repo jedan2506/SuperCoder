@@ -9,6 +9,7 @@ export interface StoryListItems {
 
 export interface StoryList {
   IN_PROGRESS: StoryListItems[];
+  IN_REVIEW: StoryListItems[];
   DONE: StoryListItems[];
 }
 
